@@ -189,10 +189,10 @@ class PrettyProfile
      * @example {{ PrettyProfile::profileImage(393939, animal: 'dog') }}
      * //=> For Laravel Blade
      */
-    public static function profileImage(int $id, ?string $image = null, $animal = 'dog'): string
+    public static function profileImage(int $id, ?string $image = null, string $animal = 'dog'): string
     {
         if (! in_array($animal, self::$animals)) {
-            throw new InvalidArgumentException('The value must be dog or cat. '.$animal.' can not valid.');
+            throw new InvalidArgumentException('The value must be dog or cat. '.$animal.' is not valid.');
         }
 
         if (! empty($image)) {
