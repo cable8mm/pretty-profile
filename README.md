@@ -18,8 +18,8 @@ We have provided the API Documentation on the web. For more information, please 
 ## Features
 
 - [x] 4,080 names for a dog or a cat without any limits
-- [x] 81 images for a dog under [CC BY-NC-ND 4.0 license](https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1)
-- [x] 40 images for a cat under [CC BY-NC-ND 4.0 license](https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1)
+- [x] 80 images for a dog under [CC BY-NC-ND 4.0 license](https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1)
+- [x] 41 images for a cat under [CC BY-NC-ND 4.0 license](https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1)
 
 ## Preview
 
