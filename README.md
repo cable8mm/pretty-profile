@@ -9,17 +9,427 @@
 [![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 [![Packagist License](https://img.shields.io/packagist/l/cable8mm/view-transformer)](https://github.com/cable8mm/view-transformer/blob/main/LICENSE.md)
 
-This API allows you to freely use names and images of dogs and cats without any limits. These images are hosted on [GitHub Pages](https://github.com/cable8mm/cabinet-pets) with the domain cabinet-pets.palgle.com. Additionally, WordPress contents can be converted to HTML, including YouTube embed tags.
-
-This repository is licensed under the MIT license, and the artworks are licensed under the [CC BY-NC-ND 4.0 license](https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1). For more information, visit: <https://github.com/cable8mm/cabinet-pets>.
-
-We have provided the API Documentation on the web. For more information, please visit <https://palgle.com/view-transformer/> ❤️
+A PHP library for generating pet (dog/cat) avatar images and nicknames. Provides consistent images and nicknames based on user IDs, and includes WordPress content transformation features.
 
 ## Features
 
-- [x] 4,080 names for a dog or a cat without any limits
-- [x] 80 images for a dog under [CC BY-NC-ND 4.0 license](https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1)
-- [x] 41 images for a cat under [CC BY-NC-ND 4.0 license](https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1)
+- 4,080 dog/cat nicknames (breed names + descriptive adjectives)
+- 80 dog avatar images
+- 41 cat avatar images
+- 3 image sizes supported (large, medium, small)
+- Transform WordPress content to HTML (YouTube embed, caption tag processing)
+- Laravel Blade support
+- Deterministic algorithm (same ID always returns same result)
+
+## Installation
+
+```bash
+composer require cable8mm/view-transformer
+```
+
+## Quick Start
+
+```php
+use Cable8mm\ViewTransformer\PrettyProfile;
+
+// Generate nickname
+$nickname = PrettyProfile::getInstance()->nickname(12345);
+// Output: "Happy Poodle" (example)
+
+// Get dog image URL
+$dogImage = PrettyProfile::getInstance()->dog(12345);
+// Output: "https://cabinet-pets.palgle.com/avatars/dog/61.png"
+
+// Get cat image URL (medium size)
+$catImage = PrettyProfile::getInstance()->cat(12345, 'medium');
+// Output: "https://cabinet-pets.palgle.com/avatars/cat/medium/13.png"
+```
+
+## API Reference
+
+### PrettyProfile
+
+Generates nicknames and pet image URLs based on user ID.
+
+#### Methods
+
+##### `nickname(int $id): string`
+
+Generates a nickname from user ID.
+
+**Parameters:**
+
+- `$id` (int): User ID (must be >= 1)
+
+**Returns:** Adjective + breed name combination (e.g., "Ordinary Nebelung")
+
+**Throws:** `InvalidArgumentException` - If ID is 0 or negative
+
+**Example:**
+
+```php
+echo PrettyProfile::getInstance()->nickname(1);
+//=> Ordinary Nebelung
+
+echo PrettyProfile::getInstance()->nickname(2);
+//=> Sexy Norwegian Forest
+```
+
+---
+
+##### `cat(int $id, ?string $size = null): string`
+
+Returns a cat image URL.
+
+**Parameters:**
+
+- `$id` (int): User ID (must be >= 1)
+- `$size` (string|null): 'large', 'medium', 'small', or null (original size)
+
+**Returns:** Image URL
+
+**Throws:** `InvalidArgumentException` - If ID is invalid or size is not valid
+
+**Example:**
+
+```php
+echo PrettyProfile::getInstance()->cat(1);
+//=> https://cabinet-pets.palgle.com/avatars/cat/1.png
+
+echo PrettyProfile::getInstance()->cat(1, 'medium');
+//=> https://cabinet-pets.palgle.com/avatars/cat/medium/1.png
+```
+
+---
+
+##### `dog(int $id, ?string $size = null): string`
+
+Returns a dog image URL.
+
+**Parameters:**
+
+- `$id` (int): User ID (must be >= 1)
+- `$size` (string|null): 'large', 'medium', 'small', or null (original size)
+
+**Returns:** Image URL
+
+**Throws:** `InvalidArgumentException` - If ID is invalid or size is not valid
+
+**Example:**
+
+```php
+echo PrettyProfile::getInstance()->dog(1);
+//=> https://cabinet-pets.palgle.com/avatars/dog/1.png
+
+echo PrettyProfile::getInstance()->dog(1, 'large');
+//=> https://cabinet-pets.palgle.com/avatars/dog/large/1.png
+```
+
+---
+
+##### `cats(?string $size = null): array`
+
+Returns array of all cat image URLs.
+
+**Parameters:**
+
+- `$size` (string|null): 'large', 'medium', 'small', or null (original size)
+
+**Returns:** Array of image URLs (41 items)
+
+**Example:**
+
+```php
+$cats = PrettyProfile::getInstance()->cats();
+// Array of 41 image URLs
+
+$cats = PrettyProfile::getInstance()->cats('medium');
+// Array of 41 medium-sized image URLs
+```
+
+---
+
+##### `dogs(?string $size = null): array`
+
+Returns array of all dog image URLs.
+
+**Parameters:**
+
+- `$size` (string|null): 'large', 'medium', 'small', or null (original size)
+
+**Returns:** Array of image URLs (80 items)
+
+**Example:**
+
+```php
+$dogs = PrettyProfile::getInstance()->dogs();
+// Array of 80 image URLs
+
+$dogs = PrettyProfile::getInstance()->dogs('small');
+// Array of 80 small-sized image URLs
+```
+
+---
+
+##### `profileImage(int $id, ?string $image = null, string $animal = 'dog'): string`
+
+Helper method for Laravel Blade templates.
+
+**Parameters:**
+
+- `$id` (int): User ID
+- `$image` (string|null): Custom image URL (used if provided)
+- `$animal` (string): 'dog' or 'cat' (default: 'dog')
+
+**Returns:** Image URL
+
+**Throws:** `InvalidArgumentException` - If animal is not 'dog' or 'cat'
+
+**Example:**
+
+```blade
+{{ PrettyProfile::profileImage(4123, animal: 'dog') }}
+{{-- Output: https://cabinet-pets.palgle.com/avatars/dog/43.png --}}
+
+{{ PrettyProfile::profileImage(4123, animal: 'cat') }}
+{{-- Output: https://cabinet-pets.palgle.com/avatars/cat/10.png --}}
+
+{{ PrettyProfile::profileImage(4123, image: 'https://example.com/custom.png') }}
+{{-- Output: https://example.com/custom.png --}}
+```
+
+---
+
+##### `backgroundImage(?string $background_image = null): string`
+
+Returns a background image URL.
+
+**Parameters:**
+
+- `$background_image` (string|null): Custom background image URL
+
+**Returns:** Background image URL
+
+**Example:**
+
+```php
+echo PrettyProfile::backgroundImage();
+//=> https://cabinet-pets.palgle.com/bg/bg-1.png
+
+echo PrettyProfile::backgroundImage('https://example.com/bg.png');
+//=> https://example.com/bg.png
+```
+
+---
+
+### WordBinder
+
+Transforms WordPress content to HTML.
+
+#### Methods
+
+##### `view(string $content): string`
+
+Transforms WordPress shortcodes to HTML.
+
+**Supported features:**
+
+- Extract only images from `[caption]` tags
+- Convert `[embed]` tags to YouTube iframes
+- Remove empty paragraphs (`<p>&nbsp;</p>`)
+
+**Parameters:**
+
+- `$content` (string): WordPress content
+
+**Returns:** Transformed HTML
+
+**Example:**
+
+```php
+use Cable8mm\ViewTransformer\WordBinder;
+
+// YouTube embed transformation
+$content = '[embed]https://www.youtube.com/watch?v=XsJ9GFGkEOk[/embed]';
+echo WordBinder::view($content);
+//=> <iframe width="100%" height="100%" src="https://www.youtube.com/embed/XsJ9GFGkEOk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+// Extract image from caption tag
+$content = '[caption width=80]<img src="image.jpg" />[/caption]';
+echo WordBinder::view($content);
+//=> <img src="image.jpg" />
+
+// Remove empty paragraphs
+$content = '<p>Content</p><p>&nbsp;</p><p>More</p>';
+echo WordBinder::view($content);
+//=> <p>Content</p><p>More</p>
+```
+
+---
+
+##### `addBanner(string $content, string $bannerHtml, int $nthPTag = 0): string`
+
+Inserts banner HTML after the nth `<p>` tag in HTML content.
+
+**Parameters:**
+
+- `$content` (string): HTML content
+- `$bannerHtml` (string): Banner HTML to insert
+- `$nthPTag` (int): Insert position (0 = at the beginning, default: 0)
+
+**Returns:** HTML with banner inserted
+
+**Example:**
+
+```php
+$banner = '<a href="https://example.com">Banner</a>';
+$content = '<p>Para1</p><p>Para2</p><p>Para3</p>';
+
+// Insert banner at the beginning
+echo WordBinder::addBanner($content, $banner, 0);
+//=> <a href="https://example.com">Banner</a><p>Para1</p><p>Para2</p><p>Para3</p>
+
+// Insert banner after 2nd paragraph
+echo WordBinder::addBanner($content, $banner, 2);
+//=> <p>Para1</p><p>Para2</p><a href="https://example.com">Banner</a><p>Para3</p>
+
+// If n exceeds number of <p> tags, insert at beginning
+echo WordBinder::addBanner($content, $banner, 10);
+//=> <a href="https://example.com">Banner</a><p>Para1</p><p>Para2</p><p>Para3</p>
+```
+
+---
+
+## Usage Examples
+
+### Generate User Profile Images
+
+```php
+use Cable8mm\ViewTransformer\PrettyProfile;
+
+$userId = 393939;
+
+// Generate nickname
+$nickname = PrettyProfile::getInstance()->nickname($userId);
+echo $nickname; // "Ordinary Nebelung"
+
+// Get dog profile image
+$dogImage = PrettyProfile::getInstance()->dog($userId);
+echo $dogImage; // "https://cabinet-pets.palgle.com/avatars/dog/64.png"
+
+// Get cat profile image (medium size)
+$catImage = PrettyProfile::getInstance()->cat($userId, 'medium');
+echo $catImage; // "https://cabinet-pets.palgle.com/avatars/cat/medium/10.png"
+```
+
+### Get All Images
+
+```php
+use Cable8mm\ViewTransformer\PrettyProfile;
+
+// Get all dog images (original size)
+$allDogs = PrettyProfile::getInstance()->dogs();
+
+// Get all cat images (medium size)
+$allCatsMedium = PrettyProfile::getInstance()->cats('medium');
+
+// Generate preview
+foreach ($allDogs as $index => $url) {
+    echo "![Dog $index]($url)\n";
+}
+```
+
+### Laravel Blade Integration
+
+```blade
+{{-- Basic usage --}}
+<img src="{{ PrettyProfile::profileImage($user->id, animal: 'dog') }}" alt="Profile">
+
+{{-- Cat image --}}
+<img src="{{ PrettyProfile::profileImage($user->id, animal: 'cat') }}" alt="Profile">
+
+{{-- Custom image (takes priority) --}}
+<img src="{{ PrettyProfile::profileImage($user->id, image: $user->custom_avatar) }}" alt="Profile">
+```
+
+### WordPress Content Transformation
+
+```php
+use Cable8mm\ViewTransformer\WordBinder;
+
+// WordPress content with YouTube video
+$wordpressContent = '
+    <p>First paragraph</p>
+    [embed]https://www.youtube.com/watch?v=abc123&t=30[/embed]
+    <p>Second paragraph</p>
+';
+
+$html = WordBinder::view($wordpressContent);
+// YouTube embed is converted to iframe
+
+// Insert banner ad
+$banner = '<div class="ad-banner">Advertisement</div>';
+$contentWithBanner = WordBinder::addBanner($html, $banner, 1);
+// Banner inserted after first paragraph
+```
+
+### Exception Handling
+
+```php
+use Cable8mm\ViewTransformer\PrettyProfile;
+
+try {
+    // Invalid ID (0 or negative)
+    PrettyProfile::getInstance()->cat(0);
+} catch (\InvalidArgumentException $e) {
+    echo $e->getMessage();
+    // "The value must be over 0, so a value of 0 is not valid."
+}
+
+try {
+    // Invalid size
+    PrettyProfile::getInstance()->dog(1, 'huge');
+} catch (\InvalidArgumentException $e) {
+    echo $e->getMessage();
+    // "The value must be "large" or "medium" or "small", so a value of "huge" is not valid."
+}
+
+try {
+    // Invalid animal
+    PrettyProfile::profileImage(1, animal: 'rabbit');
+} catch (\InvalidArgumentException $e) {
+    echo $e->getMessage();
+    // "The value must be dog or cat. rabbit is not valid."
+}
+```
+
+## Algorithm
+
+### Image Selection Algorithm
+
+Uses the remainder of dividing user ID by the number of images. This ensures:
+
+- **Deterministic**: Same ID always returns the same image
+- **Uniform distribution**: If IDs are evenly distributed, images are evenly distributed
+- **Unlimited**: Works correctly even if ID exceeds image count
+
+```php
+// Example: Dog images (80 total)
+$id = 827342;
+$imageNumber = ($id - 1) % 80 + 1; // 62
+// User #827342 always uses image #62
+```
+
+### Nickname Generation Algorithm
+
+Selects prefix (adjective) and suffix (breed name) independently using modular arithmetic.
+
+```php
+// Example: ID 1
+$prefixIndex = (1 - 1) % 40; // 0 → First adjective
+$nicknameIndex = (1 - 1) % 66; // 0 → First breed name
+// Result: "Ordinary Nebelung" (example)
+```
 
 ## Preview
 
@@ -149,89 +559,6 @@ We have provided the API Documentation on the web. For more information, please 
 ![Cat 39](https://cabinet-pets.palgle.com/avatars/cat/medium/39.png)
 ![Cat 40](https://cabinet-pets.palgle.com/avatars/cat/medium/40.png)
 ![Cat 41](https://cabinet-pets.palgle.com/avatars/cat/medium/41.png)
-
-## Installation
-
-```sh
-composer require cable8mm/view-transformer
-```
-
-## Usage
-
-### APIs
-
-The number 393939 would be better utilized as a user ID.
-
-```php
-use Cable8mm\ViewTransformer\PrettyProfile;
-
-PrettyProfile::getInstance()->nickname(393939)
-// get a nickname.
-
-print PrettyProfile::getInstance()->cat(393939);
-print PrettyProfile::getInstance()->cat(393939, 'large');
-// The second argument can be 'large', 'medium', or 'small'. Null indicates the original size.
-
-print PrettyProfile::getInstance()->dog(393939);
-print PrettyProfile::getInstance()->dog(393939, 'large');
-
-print PrettyProfile::getInstance()->cats();
-// All cat images
-print PrettyProfile::getInstance()->cats('medium');
-// All cat images in medium size
-
-print PrettyProfile::getInstance()->dogs();
-print PrettyProfile::getInstance()->dogs('medium');
-```
-
-### Various cases
-
-It has been designed to retrieve an image by user ID, even if the ID is a large number.
-
-```php
-use Cable8mm\ViewTransformer\PrettyProfile;
-
-print PrettyProfile::getInstance()->nickname(1)
-//=> 평범한 네벨룽;
-```
-
-```php
-use Cable8mm\ViewTransformer\PrettyProfile;
-
-print PrettyProfile::getInstance()->cat(1);
-//=> https://cabinet-pets.palgle.com/avatars/cat/1.png;
-```
-
-You can use it as follows in Laravel Blade:
-
-```blade
-{{ PrettyProfileHelper::profileImage(4123, animal:'dog') }}
-{{-- ==> https://cabinet-pets.palgle.com/avatars/dog/43.png --}}
-```
-
-Preview can be generated using the following code:
-
-```php
-use Cable8mm\ViewTransformer\PrettyProfile;
-
-$dogs = PrettyProfile::getInstance()->dogs('medium');
-
-array_map(
-    fn($item, $key) => print '![Dog '.$key.']('.$item.')'.PHP_EOL,
-    $dogs,
-    array_keys($dogs)
-);
-//=> ![Dog 1](https://cabinet-pets.palgle.com/avatars/dog/1.png)...
-
-$cats = PrettyProfile::getInstance()->cats('medium');
-
-array_map(
-    fn($item, $key) => print '![Cat '.$key.']('.$item.')'.PHP_EOL,
-    $cats,
-    array_keys($cats)
-);
-//=> ![Cat 1](https://cabinet-pets.palgle.com/avatars/cat/1.png)...
-```
 
 ## Formatting
 
