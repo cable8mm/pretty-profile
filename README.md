@@ -9,7 +9,7 @@
 [![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 [![Packagist License](https://img.shields.io/packagist/l/cable8mm/view-transformer)](https://github.com/cable8mm/view-transformer/blob/main/LICENSE.md)
 
-A PHP library for generating pet (dog/cat) avatar images and nicknames. Provides consistent images and nicknames based on user IDs, and includes WordPress content transformation features.
+A PHP library for generating pet (dog/cat) avatar images and nicknames. Provides consistent profile defaults based on user IDs.
 
 ## Features
 
@@ -17,7 +17,6 @@ A PHP library for generating pet (dog/cat) avatar images and nicknames. Provides
 - 80 dog avatar images
 - 41 cat avatar images
 - 3 image sizes supported (large, medium, small)
-- Transform WordPress content to HTML (YouTube embed, caption tag processing)
 - Laravel Blade support
 - Deterministic algorithm (same ID always returns same result)
 
@@ -222,84 +221,6 @@ echo PrettyProfile::backgroundImage('https://example.com/bg.png');
 
 ---
 
-### WordBinder
-
-Transforms WordPress content to HTML.
-
-#### Methods
-
-##### `view(string $content): string`
-
-Transforms WordPress shortcodes to HTML.
-
-**Supported features:**
-
-- Extract only images from `[caption]` tags
-- Convert `[embed]` tags to YouTube iframes
-- Remove empty paragraphs (`<p>&nbsp;</p>`)
-
-**Parameters:**
-
-- `$content` (string): WordPress content
-
-**Returns:** Transformed HTML
-
-**Example:**
-
-```php
-use Cable8mm\ViewTransformer\WordBinder;
-
-// YouTube embed transformation
-$content = '[embed]https://www.youtube.com/watch?v=XsJ9GFGkEOk[/embed]';
-echo WordBinder::view($content);
-//=> <iframe width="100%" height="100%" src="https://www.youtube.com/embed/XsJ9GFGkEOk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-// Extract image from caption tag
-$content = '[caption width=80]<img src="image.jpg" />[/caption]';
-echo WordBinder::view($content);
-//=> <img src="image.jpg" />
-
-// Remove empty paragraphs
-$content = '<p>Content</p><p>&nbsp;</p><p>More</p>';
-echo WordBinder::view($content);
-//=> <p>Content</p><p>More</p>
-```
-
----
-
-##### `addBanner(string $content, string $bannerHtml, int $nthPTag = 0): string`
-
-Inserts banner HTML after the nth `<p>` tag in HTML content.
-
-**Parameters:**
-
-- `$content` (string): HTML content
-- `$bannerHtml` (string): Banner HTML to insert
-- `$nthPTag` (int): Insert position (0 = at the beginning, default: 0)
-
-**Returns:** HTML with banner inserted
-
-**Example:**
-
-```php
-$banner = '<a href="https://example.com">Banner</a>';
-$content = '<p>Para1</p><p>Para2</p><p>Para3</p>';
-
-// Insert banner at the beginning
-echo WordBinder::addBanner($content, $banner, 0);
-//=> <a href="https://example.com">Banner</a><p>Para1</p><p>Para2</p><p>Para3</p>
-
-// Insert banner after 2nd paragraph
-echo WordBinder::addBanner($content, $banner, 2);
-//=> <p>Para1</p><p>Para2</p><a href="https://example.com">Banner</a><p>Para3</p>
-
-// If n exceeds number of <p> tags, insert at beginning
-echo WordBinder::addBanner($content, $banner, 10);
-//=> <a href="https://example.com">Banner</a><p>Para1</p><p>Para2</p><p>Para3</p>
-```
-
----
-
 ## Usage Examples
 
 ### Generate User Profile Images
@@ -350,27 +271,6 @@ foreach ($allDogs as $index => $url) {
 
 {{-- Custom image (takes priority) --}}
 <img src="{{ PrettyProfile::profileImage($user->id, image: $user->custom_avatar) }}" alt="Profile">
-```
-
-### WordPress Content Transformation
-
-```php
-use Cable8mm\ViewTransformer\WordBinder;
-
-// WordPress content with YouTube video
-$wordpressContent = '
-    <p>First paragraph</p>
-    [embed]https://www.youtube.com/watch?v=abc123&t=30[/embed]
-    <p>Second paragraph</p>
-';
-
-$html = WordBinder::view($wordpressContent);
-// YouTube embed is converted to iframe
-
-// Insert banner ad
-$banner = '<div class="ad-banner">Advertisement</div>';
-$contentWithBanner = WordBinder::addBanner($html, $banner, 1);
-// Banner inserted after first paragraph
 ```
 
 ### Exception Handling
