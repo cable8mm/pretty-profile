@@ -15,10 +15,9 @@ class PrettyProfile
     use Singleton;
 
     /**
-     * URL Prefix for Cat Images.
-     * https://cabinet-pets.palgle.com/avatars/cat/
+     * Base URL for cat and dog images.
      */
-    const CAT_AVATAR_URL_PREFIX = 'https://cabinet-pets.palgle.com/avatars/cat/';
+    const AVATAR_BASE_URL = 'https://cabinet-pets.palgle.com/avatars';
 
     /**
      * Total count for Cat images
@@ -27,12 +26,6 @@ class PrettyProfile
      * @see https://github.com/cable8mm/cabinet-pets/tree/main/avatars/cat
      */
     const CAT_AVATAR_COUNT = 41;
-
-    /**
-     * URL Prefix for Dog Images
-     * https://cabinet-pets.palgle.com/avatars/dog/
-     */
-    const DOG_AVATAR_URL_PREFIX = 'https://cabinet-pets.palgle.com/avatars/dog/';
 
     /**
      * URL Prefix for a background image.
@@ -109,9 +102,21 @@ class PrettyProfile
         $path = is_null($size) ? '' : $size.'/';
 
         return match ($animal) {
-            'dog' => self::DOG_AVATAR_URL_PREFIX.$path.$key.'.png',
-            'cat' => self::CAT_AVATAR_URL_PREFIX.$path.$key.'.png',
+            'dog' => $this->avatarUrl('dog', $key, $path),
+            'cat' => $this->avatarUrl('cat', $key, $path),
         };
+    }
+
+    /**
+     * Build an avatar URL using the configured base URL when running in Laravel.
+     */
+    private function avatarUrl(string $animal, int $key, string $path): string
+    {
+        $baseUrl = function_exists('config') && function_exists('app') && app()->bound('config')
+            ? config('view-transformer.avatar_base_url', self::AVATAR_BASE_URL)
+            : self::AVATAR_BASE_URL;
+
+        return rtrim((string) $baseUrl, '/').'/'.$animal.'/'.$path.$key.'.png';
     }
 
     /**

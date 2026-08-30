@@ -1,55 +1,58 @@
 {
-    "name": "cable8mm/view-transformer",
-    "description": "View Transformer make profile image or name if client's information is empty.",
-    "keywords": [
-        "dog",
-        "cat",
-        "avatar",
-        "free",
-        "php",
-        "sdk"
-    ],
-    "type": "library",
-    "require": {
-        "php": "^8.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^9.0|^10.0|^11.0",
-        "laravel/pint": "^1.0"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Sam Lee",
-            "email": "cable8mm@gmail.com",
-            "role": "Developer"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Cable8mm\\ViewTransformer\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Cable8mm\\ViewTransformer\\Tests\\": "tests/"
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "scripts": {
-        "test": "./vendor/bin/phpunit tests",
-        "lint": "./vendor/bin/pint",
-        "inspect": "./vendor/bin/pint --test",
-        "apidoc": "rm -rf build; rm -rf cache; doctum.phar update doctum.php --output-format=github --no-ansi --no-progress -v;",
-        "opendoc": "open build/index.html"
-    },
-    "extra": {
-        "laravel": {
-            "aliases": {
-                "PrettyProfileHelper": "Cable8mm\\ViewTransformer\\PrettyProfile",
-                "WordBinderHelper": "Cable8mm\\ViewTransformer\\WordBinder"
-            }
-        }
+  "name": "cable8mm/view-transformer",
+  "description": "View Transformer make profile image or name if client's information is empty.",
+  "keywords": [
+    "dog",
+    "cat",
+    "avatar",
+    "free",
+    "php",
+    "sdk"
+  ],
+  "type": "library",
+  "require": {
+    "php": "^8.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^11.0|^12.0",
+    "laravel/pint": "^1.0",
+    "orchestra/testbench": "^9.0|^10.0|^11.2"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Sam Lee",
+      "email": "cable8mm@gmail.com",
+      "role": "Developer"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Cable8mm\\ViewTransformer\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Cable8mm\\ViewTransformer\\Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "scripts": {
+    "test": "./vendor/bin/phpunit tests",
+    "lint": "./vendor/bin/pint",
+    "inspect": "./vendor/bin/pint --test",
+    "apidoc": "rm -rf build; rm -rf cache; doctum.phar update doctum.php --output-format=github --no-ansi --no-progress -v;",
+    "opendoc": "open build/index.html"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Cable8mm\\ViewTransformer\\ViewTransformerServiceProvider"
+      ],
+      "aliases": {
+        "PrettyProfileHelper": "Cable8mm\\ViewTransformer\\PrettyProfile"
+      }
+    }
+  }
 }
