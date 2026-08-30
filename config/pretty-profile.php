@@ -10,7 +10,7 @@ return [
     |
     */
     'avatar_base_url' => env(
-        'VIEW_TRANSFORMER_AVATAR_BASE_URL',
+        'PRETTY_PROFILE_AVATAR_BASE_URL',
         'https://cabinet-pets.palgle.com/avatars'
     ),
 ];

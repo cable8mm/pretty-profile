@@ -1,8 +1,8 @@
 <?php
 
-namespace Cable8mm\ViewTransformer\Tests;
+namespace Cable8mm\PrettyProfile\Tests;
 
-use Cable8mm\ViewTransformer\PrettyProfile;
+use Cable8mm\PrettyProfile\PrettyProfile;
 use PHPUnit\Framework\TestCase;
 
 class PrettyProfileTest extends TestCase

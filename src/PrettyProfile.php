@@ -1,8 +1,8 @@
 <?php
 
-namespace Cable8mm\ViewTransformer;
+namespace Cable8mm\PrettyProfile;
 
-use Cable8mm\ViewTransformer\Traits\Singleton;
+use Cable8mm\PrettyProfile\Traits\Singleton;
 use InvalidArgumentException;
 
 /**
@@ -113,7 +113,7 @@ class PrettyProfile
     private function avatarUrl(string $animal, int $key, string $path): string
     {
         $baseUrl = function_exists('config') && function_exists('app') && app()->bound('config')
-            ? config('view-transformer.avatar_base_url', self::AVATAR_BASE_URL)
+            ? config('pretty-profile.avatar_base_url', self::AVATAR_BASE_URL)
             : self::AVATAR_BASE_URL;
 
         return rtrim((string) $baseUrl, '/').'/'.$animal.'/'.$path.$key.'.png';

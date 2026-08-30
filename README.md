@@ -2,12 +2,12 @@
 
 [![code-style](https://github.com/cable8mm/view-transformer/actions/workflows/code-style.yml/badge.svg)](https://github.com/cable8mm/view-transformer/actions/workflows/code-style.yml)
 [![run-tests](https://github.com/cable8mm/view-transformer/actions/workflows/run-tests.yml/badge.svg)](https://github.com/cable8mm/view-transformer/actions/workflows/run-tests.yml)
-[![Packagist Version](https://img.shields.io/packagist/v/cable8mm/view-transformer)](https://packagist.org/packages/cable8mm/view-transformer)
-[![Packagist Downloads](https://img.shields.io/packagist/dt/cable8mm/view-transformer)](https://packagist.org/packages/cable8mm/view-transformer/stats)
-[![Packagist Dependency Version](https://img.shields.io/packagist/dependency-v/cable8mm/view-transformer/php)](https://packagist.org/packages/cable8mm/view-transformer)
-[![Packagist Stars](https://img.shields.io/packagist/stars/cable8mm/view-transformer)](https://github.com/cable8mm/view-transformer/stargazers)
+[![Packagist Version](https://img.shields.io/packagist/v/cable8mm/pretty-profile)](https://packagist.org/packages/cable8mm/pretty-profile)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/cable8mm/pretty-profile)](https://packagist.org/packages/cable8mm/pretty-profile/stats)
+[![Packagist Dependency Version](https://img.shields.io/packagist/dependency-v/cable8mm/pretty-profile/php)](https://packagist.org/packages/cable8mm/pretty-profile)
+[![Packagist Stars](https://img.shields.io/packagist/stars/cable8mm/pretty-profile)](https://github.com/cable8mm/view-transformer/stargazers)
 [![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
-[![Packagist License](https://img.shields.io/packagist/l/cable8mm/view-transformer)](https://github.com/cable8mm/view-transformer/blob/main/LICENSE.md)
+[![Packagist License](https://img.shields.io/packagist/l/cable8mm/pretty-profile)](https://github.com/cable8mm/view-transformer/blob/main/LICENSE.md)
 
 A PHP library for generating pet (dog/cat) avatar images and nicknames. Provides consistent profile defaults based on user IDs.
 
@@ -24,7 +24,7 @@ A PHP library for generating pet (dog/cat) avatar images and nicknames. Provides
 ## Installation
 
 ```bash
-composer require cable8mm/view-transformer
+composer require cable8mm/pretty-profile
 ```
 
 ### Laravel configuration
@@ -33,19 +33,19 @@ The default avatar base URL is `https://cabinet-pets.palgle.com/avatars`. To use
 another host or path, set the following environment variable:
 
 ```dotenv
-VIEW_TRANSFORMER_AVATAR_BASE_URL=https://cdn.example.com/avatars
+PRETTY_PROFILE_AVATAR_BASE_URL=https://cdn.example.com/avatars
 ```
 
 The configuration can also be published with:
 
 ```bash
-php artisan vendor:publish --tag=view-transformer-config
+php artisan vendor:publish --tag=pretty-profile-config
 ```
 
 ## Quick Start
 
 ```php
-use Cable8mm\ViewTransformer\PrettyProfile;
+use Cable8mm\PrettyProfile\PrettyProfile;
 
 // Generate nickname
 $nickname = PrettyProfile::getInstance()->nickname(12345);
@@ -242,7 +242,7 @@ echo PrettyProfile::backgroundImage('https://example.com/bg.png');
 ### Generate User Profile Images
 
 ```php
-use Cable8mm\ViewTransformer\PrettyProfile;
+use Cable8mm\PrettyProfile\PrettyProfile;
 
 $userId = 393939;
 
@@ -262,7 +262,7 @@ echo $catImage; // "https://cabinet-pets.palgle.com/avatars/cat/medium/10.png"
 ### Get All Images
 
 ```php
-use Cable8mm\ViewTransformer\PrettyProfile;
+use Cable8mm\PrettyProfile\PrettyProfile;
 
 // Get all dog images (original size)
 $allDogs = PrettyProfile::getInstance()->dogs();
@@ -292,7 +292,7 @@ foreach ($allDogs as $index => $url) {
 ### Exception Handling
 
 ```php
-use Cable8mm\ViewTransformer\PrettyProfile;
+use Cable8mm\PrettyProfile\PrettyProfile;
 
 try {
     // Invalid ID (0 or negative)

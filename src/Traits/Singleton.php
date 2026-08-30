@@ -1,6 +1,6 @@
 <?php
 
-namespace Cable8mm\ViewTransformer\Traits;
+namespace Cable8mm\PrettyProfile\Traits;
 
 trait Singleton
 {
