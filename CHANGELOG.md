@@ -1,5 +1,16 @@
 # Release Notes
 
+## v3.1.0 - 2026-08-30
+
+### What's Changed
+
+* refactor: improvements by [@cable8mm](https://github.com/cable8mm) in https://github.com/cable8mm/pretty-profile/pull/20
+* refactor: remove WordBinder class by [@cable8mm](https://github.com/cable8mm) in https://github.com/cable8mm/pretty-profile/pull/21
+* refactor: update service provider namespace by [@cable8mm](https://github.com/cable8mm) in https://github.com/cable8mm/pretty-profile/pull/22
+* refactor: rename package from view-transformer to pretty-profile by [@cable8mm](https://github.com/cable8mm) in https://github.com/cable8mm/pretty-profile/pull/23
+
+**Full Changelog**: https://github.com/cable8mm/pretty-profile/compare/v3.0.0...v3.1.0
+
 ## v3.0.0 - 2025-03-11
 
 ### What's Changed
@@ -100,6 +111,7 @@ If you use this library in laravel view, it is simple
 
 ```blade
 {{ PrettyProfileHelper::profileImage($user->id, $user->profile_image_url) }}
+
 
 
 
