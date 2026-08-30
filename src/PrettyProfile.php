@@ -112,7 +112,7 @@ class PrettyProfile
      */
     private function avatarUrl(string $animal, int $key, string $path): string
     {
-        $baseUrl = function_exists('config')
+        $baseUrl = function_exists('config') && function_exists('app') && app()->bound('config')
             ? config('view-transformer.avatar_base_url', self::AVATAR_BASE_URL)
             : self::AVATAR_BASE_URL;
 
