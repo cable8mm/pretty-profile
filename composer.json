@@ -1,6 +1,9 @@
 {
-  "name": "cable8mm/view-transformer",
-  "description": "View Transformer make profile image or name if client's information is empty.",
+  "name": "cable8mm/pretty-profile",
+  "replace": {
+    "cable8mm/view-transformer": "self.version"
+  },
+  "description": "Generate deterministic default profile names and avatar URLs for users.",
   "keywords": [
     "dog",
     "cat",
@@ -28,12 +31,12 @@
   ],
   "autoload": {
     "psr-4": {
-      "Cable8mm\\ViewTransformer\\": "src/"
+      "Cable8mm\\PrettyProfile\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Cable8mm\\ViewTransformer\\Tests\\": "tests/"
+      "Cable8mm\\PrettyProfile\\Tests\\": "tests/"
     }
   },
   "minimum-stability": "dev",
@@ -48,10 +51,10 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Cable8mm\\ViewTransformer\\Laravel\\ViewTransformerServiceProvider"
+        "Cable8mm\\PrettyProfile\\Laravel\\PrettyProfileServiceProvider"
       ],
       "aliases": {
-        "PrettyProfileHelper": "Cable8mm\\ViewTransformer\\PrettyProfile"
+        "PrettyProfileHelper": "Cable8mm\\PrettyProfile\\PrettyProfile"
       }
     }
   }
