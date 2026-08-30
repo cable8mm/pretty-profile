@@ -48,7 +48,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Cable8mm\\ViewTransformer\\ViewTransformerServiceProvider"
+        "Cable8mm\\ViewTransformer\\Laravel\\ViewTransformerServiceProvider"
       ],
       "aliases": {
         "PrettyProfileHelper": "Cable8mm\\ViewTransformer\\PrettyProfile"
