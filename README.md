@@ -19,11 +19,27 @@ A PHP library for generating pet (dog/cat) avatar images and nicknames. Provides
 - 3 image sizes supported (large, medium, small)
 - Laravel Blade support
 - Deterministic algorithm (same ID always returns same result)
+- Configurable avatar base URL in Laravel
 
 ## Installation
 
 ```bash
 composer require cable8mm/view-transformer
+```
+
+### Laravel configuration
+
+The default avatar base URL is `https://cabinet-pets.palgle.com/avatars`. To use
+another host or path, set the following environment variable:
+
+```dotenv
+VIEW_TRANSFORMER_AVATAR_BASE_URL=https://cdn.example.com/avatars
+```
+
+The configuration can also be published with:
+
+```bash
+php artisan vendor:publish --tag=view-transformer-config
 ```
 
 ## Quick Start
