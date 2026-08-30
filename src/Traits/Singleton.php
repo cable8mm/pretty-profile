@@ -9,16 +9,12 @@ trait Singleton
     /**
      * Protected class constructor to prevent direct object creation.
      */
-    protected function __construct()
-    {
-    }
+    protected function __construct() {}
 
     /**
      * Prevent object cloning
      */
-    final protected function __clone(): void
-    {
-    }
+    final protected function __clone(): void {}
 
     /**
      * Singletons should not be restorable from strings.
@@ -43,7 +39,7 @@ trait Singleton
 
         if (! isset(static::$instances[$calledClass])) {
 
-            static::$instances[$calledClass] = new $calledClass();
+            static::$instances[$calledClass] = new $calledClass;
 
         }
 
