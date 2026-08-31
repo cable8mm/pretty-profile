@@ -1,4 +1,4 @@
-# View Transformer
+# Pretty Profile
 
 [![code-style](https://github.com/cable8mm/view-transformer/actions/workflows/code-style.yml/badge.svg)](https://github.com/cable8mm/view-transformer/actions/workflows/code-style.yml)
 [![run-tests](https://github.com/cable8mm/view-transformer/actions/workflows/run-tests.yml/badge.svg)](https://github.com/cable8mm/view-transformer/actions/workflows/run-tests.yml)
@@ -494,6 +494,6 @@ composer test
 
 ## License
 
-The View Transformer project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The Pretty Profile project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 [Artworks](https://github.com/cable8mm/cabinet-pets) © 2020 by [Samgu Lee](https://github.com/cable8mm) is licensed under CC BY-NC-ND 4.0. To view a copy of this license, visit <http://creativecommons.org/licenses/by-nc-nd/4.0/>
