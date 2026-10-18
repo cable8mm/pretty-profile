@@ -1,5 +1,14 @@
 # Release Notes
 
+## v3.2.0 - 2026-10-18
+
+### What's Changed
+
+* refactor: update project name from View Transformer to Pretty Profile in README by [@cable8mm](https://github.com/cable8mm) in https://github.com/cable8mm/pretty-profile/pull/24
+* feat: add randomNickname() for nicknames without a user ID by [@cable8mm](https://github.com/cable8mm) in https://github.com/cable8mm/pretty-profile/pull/25
+
+**Full Changelog**: https://github.com/cable8mm/pretty-profile/compare/v3.1.0...v3.2.0
+
 ## v3.1.0 - 2026-08-30
 
 ### What's Changed
@@ -111,6 +120,7 @@ If you use this library in laravel view, it is simple
 
 ```blade
 {{ PrettyProfileHelper::profileImage($user->id, $user->profile_image_url) }}
+
 
 
 
