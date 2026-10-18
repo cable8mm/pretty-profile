@@ -51,6 +51,9 @@ use Cable8mm\PrettyProfile\PrettyProfile;
 $nickname = PrettyProfile::getInstance()->nickname(12345);
 // Output: "Happy Poodle" (example)
 
+// Generate a random nickname without an ID
+$randomNickname = PrettyProfile::getInstance()->randomNickname();
+
 // Get dog image URL
 $dogImage = PrettyProfile::getInstance()->dog(12345);
 // Output: "https://cabinet-pets.palgle.com/avatars/dog/61.png"
@@ -88,6 +91,21 @@ echo PrettyProfile::getInstance()->nickname(1);
 
 echo PrettyProfile::getInstance()->nickname(2);
 //=> Sexy Norwegian Forest
+```
+
+---
+
+##### `randomNickname(): string`
+
+Generates a random nickname without a user ID. Use it when no ID exists yet, for example before a user record is saved.
+
+**Returns:** A random adjective + breed name combination (e.g., "Sexy Nebelung")
+
+**Example:**
+
+```php
+echo PrettyProfile::getInstance()->randomNickname();
+//=> Sexy Nebelung (random)
 ```
 
 ---

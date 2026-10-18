@@ -83,6 +83,25 @@ class PrettyProfile
         return $this->nicknamePrefixes[$prefix].' '.$this->nicknames[$nickname];
     }
 
+    /**
+     * Get a random nickname to related dogs and cats, without a user ID.
+     *
+     * Use it when no ID exists yet, for example before a user record is saved.
+     *
+     * @return string nickname
+     *
+     * @example PrettyProfile::getInstance()->randomNickname();
+     * //=> 섹시한 네벨룽
+     */
+    public function randomNickname(): string
+    {
+        $prefix = $this->nicknamePrefixes[random_int(0, count($this->nicknamePrefixes) - 1)];
+
+        $nickname = $this->nicknames[random_int(0, count($this->nicknames) - 1)];
+
+        return $prefix.' '.$nickname;
+    }
+
     private function image(string $animal, int $id, ?string $size = null): string
     {
         if ($id < 1) {

@@ -18,6 +18,17 @@ class PrettyProfileTest extends TestCase
         $this->assertEquals('섹시한 노르웨이숲', $profileNickname);
     }
 
+    public function test_it_gets_a_random_nickname_from_the_nickname_data(): void
+    {
+        $prefixes = require __DIR__.'/../src/Data/NicknamePrefix.php';
+        $nicknames = require __DIR__.'/../src/Data/Nickname.php';
+
+        [$prefix, $nickname] = explode(' ', PrettyProfile::getInstance()->randomNickname(), 2);
+
+        $this->assertContains($prefix, $prefixes);
+        $this->assertContains($nickname, $nicknames);
+    }
+
     public function test_it_gets_expected_cat_profile_image(): void
     {
         $profileImage = PrettyProfile::getInstance()->cat(1);
